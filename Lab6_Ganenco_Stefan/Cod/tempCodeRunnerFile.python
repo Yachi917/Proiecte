@@ -1,0 +1,31 @@
+from arsenal.forensics.decode import r, x, h
+
+print("\n--- COPIAZĂ ASTA ÎN RAPORT.MD LA LUCRAREA A ---")
+
+# 1. Straturi mesaj
+try:
+    with open("probe/mesaj.txt", "r") as f:
+        mesaj = f.read().strip()
+    straturi, rez = r(mesaj)
+    print(f"- Straturi decode: {straturi} -> {rez}")
+except Exception as e:
+    print("Eroare la mesaj.txt:", e)
+
+# 2. XOR
+try:
+    with open("probe/xor.bin", "rb") as f:
+        date_xor = f.read()
+    gasite = x(date_xor)
+    for k, t in gasite:
+        print(f"- XOR: cheia {k} -> {t}")
+except Exception as e:
+    print("Eroare la xor.bin:", e)
+
+# 3. Hash
+try:
+    with open("probe/hashuri.txt", "r") as f:
+        hash_tinta = f.readline().strip()
+    parola = h(hash_tinta, "probe/wordlist.txt")
+    print(f"- Hash spart: {parola}")
+except Exception as e:
+    print("Eroare la hashuri.txt:", e)
